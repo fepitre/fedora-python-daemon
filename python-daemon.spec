@@ -3,7 +3,7 @@
 
 Name:           python-daemon
 Version:        1.5.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Library to implement a well-behaved Unix daemon process
 
 Group:          Development/Languages
@@ -11,6 +11,7 @@ License:        Python
 URL:            http://pypi.python.org/pypi/python-daemon/
 Source0:        http://pypi.python.org/packages/source/p/python-daemon/%{name}-%{version}.tar.gz
 Patch0:         %{name}-%{version}-import.patch
+Patch1:         %{name}-%{version}-py24-exc.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -25,6 +26,7 @@ This library implements the well-behaved daemon specification of PEP 3143,
 %prep
 %setup -q
 %patch0 -p0 -b .import
+%patch1 -p0 -b .py24-exc
 
 sed -i -e '/^#!\//, 1d' daemon/version/version_info.py
 
@@ -52,6 +54,10 @@ PYTHONPATH=$(pwd) nosetests
 %{python_sitelib}/python_daemon-%{version}-py%{pyver}.egg-info/
 
 %changelog
+* Fri Jan 08 2010 Luke Macken <lmacken@redhat.com> - 1.5.2-3
+- Add python-daemon-1.5.2-py24-exc.patch to fix a few
+  unit tests on python 2.4
+
 * Fri Jan 08 2010 Luke Macken <lmacken@redhat.com> - 1.5.2-2
 - Add python-daemon-1.5.2-import.patch, which fixes the use of
   __import__ to work on Python 2.4

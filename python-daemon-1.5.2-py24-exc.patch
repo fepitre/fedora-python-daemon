@@ -1,0 +1,41 @@
+--- test/test_runner.py.orig	2010-01-08 20:41:22.000000000 -0500
++++ test/test_runner.py	2010-01-08 20:44:32.000000000 -0500
+@@ -485,7 +485,7 @@
+         else:
+             raise self.failureException(
+                 "Failed to raise " + expect_error.__name__)
+-        self.failUnlessIn(exc.message, expect_message_content)
++        self.failUnlessIn(str(exc), expect_message_content)
+ 
+     def test_breaks_lock_if_no_such_process(self):
+         """ Should request breaking lock if PID file process is not running. """
+@@ -580,7 +580,7 @@
+             raise self.failureException(
+                 "Failed to raise " + expect_error.__name__)
+         scaffold.mock_restore()
+-        self.failUnlessIn(exc.message, expect_message_content)
++        self.failUnlessIn(str(exc), expect_message_content)
+ 
+     def test_breaks_lock_if_pidfile_stale(self):
+         """ Should break lock if PID file is stale. """
+@@ -629,7 +629,7 @@
+             raise self.failureException(
+                 "Failed to raise " + expect_error.__name__)
+         scaffold.mock_restore()
+-        self.failUnlessIn(exc.message, expect_message_content)
++        self.failUnlessIn(str(exc), expect_message_content)
+ 
+ 
+ class DaemonRunner_do_action_restart_TestCase(scaffold.TestCase):
+[?1049h[?1h=[1;40r[?12;25h[?12l[?25h[27m[m[H[2J[?25l[40;1H"cat" [New File][2;1H[1m[30m~                                                                              [3;1H~                                                                              [4;1H~                                                                              [5;1H~                                                                              [6;1H~                                                                              [7;1H~                                                                              [8;1H~                                                                              [9;1H~                                                                              [10;1H~                                                                              [11;1H~                                                                              [12;1H~                                                                              [13;1H~                                                                              [14;1H~                                                                              [15;1H~                                                                              [16;1H~                                                                              [17;1H~                                                                              [18;1H~                                                                              [19;1H~                                                                              [20;1H~                                                                              [21;1H~                                                                              [22;1H~                                                                              [23;1H~                                                                              [24;1H~                                                                              [25;1H~                                                                              [26;1H~                                                                              [27;1H~                                                                              [28;1H~                                                                              [29;1H~                                                                              [30;1H~                                                                              [31;1H~                                                                              [32;1H~                                                                              [33;1H~                                                                              [34;1H~                                                                              [35;1H~                                                                              [36;1H~                                                                              [37;1H~                                                                              [38;1H~                                                                              [39;1H~                                                                              [m[40;62H0,0-1[9CAll[1;1H[?12l[?25h[?25l[40;1HType  :quit<Enter>  to exit Vim[40;62H[K[40;62H0,0-1[9CAll[1;1H[?12l[?25h[?25l[40;62H[K[40;62H0,0-1[9CAll[1;1H[?12l[?25h[?25l[40;62H[K[40;62H0,0-1[9CAll[1;1H[?12l[?25h[?25l[40;62H[K[40;62H0,0-1[9CAll[1;1H[?12l[?25h[?25l[40;62H[K[40;62H0,0-1[9CAll[1;1H[?12l[?25h[?25l[40;62H[K[40;62H0,0-1[9CAll[1;1H[?12l[?25h[?25l[40;52H^Z[1;1H[40;1H
+[?1l>[?12l[?25h[?1049l--- test/test_pidlockfile.py.orig	2010-01-08 21:57:48.000000000 -0500
++++ test/test_pidlockfile.py	2010-01-08 22:03:55.000000000 -0500
+@@ -645,7 +645,7 @@
+         mock_error = OSError(errno.EACCES, "Denied", pidfile_path)
+         os.remove.mock_raises = mock_error
+         self.failUnlessRaises(
+-            type(mock_error),
++            mock_error.__class__,
+             pidlockfile.remove_existing_pidfile,
+             pidfile_path)
+ 
