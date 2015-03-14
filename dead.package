@@ -1,0 +1,4 @@
+2015-03-14: Retired bacause of broken deps:
+unresolved dependencies for python-daemon-1.5.2-3.el5.noarch:
+python-lockfile
+
