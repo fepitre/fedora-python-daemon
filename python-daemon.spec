@@ -2,7 +2,7 @@
 # 24 picked since that's when the package was updated to contain a version
 # capable of python3.  If we're willing to push the update to older Fedora
 # releases, the python3 package can go to older releases as well.
-%if 0%{?fedora} >= 23
+%if 0%{?fedora} >= 23 || 0%{?rhel} >= 8
 %global with_python3 1
 %else
 %global with_python3 0
