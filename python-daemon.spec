@@ -10,7 +10,7 @@
 
 Name:           python-daemon
 Version:        2.2.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Library to implement a well-behaved Unix daemon process
 
 # Some build scripts and test franework are licensed GPLv3+ but htose aren't shipped
@@ -115,6 +115,9 @@ PYTHONPATH=$(pwd) %{__python3} -m unittest discover
 %endif
 
 %changelog
+* Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Sat Jun 29 2019 Kevin Fenzi <kevin@scrye.com> - 2.2.3-2
 - Add patch for socket tests in python 3.8. Fixes bug #1695802
 
