@@ -10,7 +10,7 @@
 
 Name:           python-daemon
 Version:        2.2.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Library to implement a well-behaved Unix daemon process
 
 # Some build scripts and test franework are licensed GPLv3+ but htose aren't shipped
@@ -19,6 +19,8 @@ URL:            http://pypi.python.org/pypi/python-daemon/
 Source0:        https://files.pythonhosted.org/packages/source/p/%{name}/%{name}-%{version}.tar.gz
 # Fix python3.8 socket tests. Already upstream.
 Patch0:         https://pagure.io/python-daemon/c/b7089121e305ef29dee9b72bfdb8b1496ffed48c.patch
+# Fix the test suite in py2
+Patch1:         0001-Mock-the-.__class__-attribute-so-tests-pass-in-py2.patch
 
 BuildArch:      noarch
 BuildRequires:  python2-devel, python2-setuptools
@@ -115,6 +117,9 @@ PYTHONPATH=$(pwd) %{__python3} -m unittest discover
 %endif
 
 %changelog
+* Tue Aug 20 2019 Pierre-Yves Chibon <pingou@pingoured.fr> - 2.2.3-5
+- Patch the test suite so it passes with py2
+
 * Sun Aug 18 2019 Miro Hrončok <mhroncok@redhat.com> - 2.2.3-4
 - Rebuilt for Python 3.8
 

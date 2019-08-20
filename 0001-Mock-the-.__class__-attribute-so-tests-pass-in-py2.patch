@@ -1,0 +1,25 @@
+From cdf486b9eb4f1c0f295ead9921631c16f3c39151 Mon Sep 17 00:00:00 2001
+From: Pierre-Yves Chibon <pingou@pingoured.fr>
+Date: Tue, 20 Aug 2019 14:15:19 +0200
+Subject: [PATCH] Mock the .__class__ attribute so tests pass in py2
+
+Signed-off-by: Pierre-Yves Chibon <pingou@pingoured.fr>
+---
+ test_version.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/test_version.py b/test_version.py
+index f23ba4b..0d5a493 100644
+--- a/test_version.py
++++ b/test_version.py
+@@ -1128,6 +1128,7 @@ class get_changelog_path_TestCase(
+         if not hasattr(self, 'script_filename'):
+             self.script_filename = self.default_script_filename
+ 
++        self.test_distribution.__class__ = distutils.dist.Distribution
+         self.test_distribution.packages = None
+         self.test_distribution.package_dir = {'': self.script_directory}
+         self.test_distribution.script_name = self.script_filename
+-- 
+2.21.0
+
