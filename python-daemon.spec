@@ -1,16 +1,6 @@
-
-# 24 picked since that's when the package was updated to contain a version
-# capable of python3.  If we're willing to push the update to older Fedora
-# releases, the python3 package can go to older releases as well.
-%if 0%{?fedora} >= 23 || 0%{?rhel} >= 8
-%global with_python3 1
-%else
-%global with_python3 0
-%endif
-
 Name:           python-daemon
 Version:        2.2.3
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Library to implement a well-behaved Unix daemon process
 
 # Some build scripts and test franework are licensed GPLv3+ but htose aren't shipped
@@ -23,19 +13,12 @@ Patch0:         https://pagure.io/python-daemon/c/b7089121e305ef29dee9b72bfdb8b1
 Patch1:         0001-Mock-the-.__class__-attribute-so-tests-pass-in-py2.patch
 
 BuildArch:      noarch
-BuildRequires:  python2-devel, python2-setuptools
-BuildRequires:  python2-testscenarios
-BuildRequires:  python2-docutils
-BuildRequires:  python2-lockfile
-BuildRequires:  python2-mock
-%if 0%{?with_python3}
 BuildRequires:  python3-devel, python3-setuptools
 BuildRequires:  python3-testscenarios
 BuildRequires:  python3-docutils
 BuildRequires:  python3-lockfile
 BuildRequires:  python3-mock
 BuildRequires:  python3-testtools
-%endif
 
 %global _description\
 This library implements the well-behaved daemon specification of PEP 3143,\
@@ -45,78 +28,40 @@ This is the python2 version of the library.
 
 %description %_description
 
-%package -n python2-daemon
-Summary: %summary
-Requires:       python2-lockfile
-Requires:       python2-docutils
-%{?python_provide:%python_provide python2-daemon}
-
-%description -n python2-daemon %_description
-
-%if 0%{?with_python3}
 %package -n python3-daemon
 Summary:        Library to implement a well-behaved Unix daemon process
 Requires:       python3-lockfile
 Requires:       python3-docutils
+%{?python_provide:%python_provide python3-daemon}
 
-%description -n python3-daemon
-This library implements the well-behaved daemon specification of PEP 3143,
-"Standard daemon process library".
+%description -n python3-daemon %_description
 
 This is the python3 version of the library.
-%endif
 
 %prep
 %autosetup -p1
 
-%if 0%{?with_python3}
-rm -rf %{py3dir}
-cp -ar . %{py3dir}
-%endif
-
 %build
-%{__python2} setup.py build
-
-%if 0%{?with_python3}
-pushd %{py3dir}
-%{__python3} setup.py build
-popd
-%endif
+%py3_build
 
 %install
-%{__python2} setup.py install --skip-build --root %{buildroot}
-rm -fr %{buildroot}%{python2_sitelib}/tests
-
-%if 0%{?with_python3}
-pushd %{py3dir}
-%{__python3} setup.py install --skip-build --root %{buildroot}
+%py3_install
 rm -fr %{buildroot}%{python3_sitelib}/tests
-popd
-%endif
-
 
 # Test suite requires minimock and lockfile
 %check
-PYTHONPATH=$(pwd) %{__python2} -m unittest discover
-
-%if 0%{?with_python3}
-pushd %{py3dir}
 PYTHONPATH=$(pwd) %{__python3} -m unittest discover
-%endif
 
-%files -n python2-daemon
-%license LICENSE.ASF-2
-%{python2_sitelib}/daemon/
-%{python2_sitelib}/python_daemon-%{version}-py%{python2_version}.egg-info/
-
-%if 0%{?with_python3}
 %files -n python3-daemon
 %license LICENSE.ASF-2
 %{python3_sitelib}/daemon/
 %{python3_sitelib}/python_daemon-%{version}-py%{python3_version}.egg-info/
-%endif
 
 %changelog
+* Wed Aug 28 2019 Miro Hrončok <mhroncok@redhat.com> - 2.2.3-6
+- Subpackage python2-daemon has been removed
+  See https://fedoraproject.org/wiki/Changes/Mass_Python_2_Package_Removal
+
 * Tue Aug 20 2019 Pierre-Yves Chibon <pingou@pingoured.fr> - 2.2.3-5
 - Patch the test suite so it passes with py2
 
