@@ -1,6 +1,6 @@
 Name:           python-daemon
 Version:        2.2.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Library to implement a well-behaved Unix daemon process
 
 # Some build scripts and test franework are licensed GPLv3+ but htose aren't shipped
@@ -58,6 +58,9 @@ PYTHONPATH=$(pwd) %{__python3} -m unittest discover
 %{python3_sitelib}/python_daemon-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Thu Oct 03 2019 Miro Hrončok <mhroncok@redhat.com> - 2.2.3-7
+- Rebuilt for Python 3.8.0rc1 (#1748018)
+
 * Wed Aug 28 2019 Miro Hrončok <mhroncok@redhat.com> - 2.2.3-6
 - Subpackage python2-daemon has been removed
   See https://fedoraproject.org/wiki/Changes/Mass_Python_2_Package_Removal
