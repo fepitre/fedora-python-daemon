@@ -1,16 +1,15 @@
 Name:           python-daemon
-Version:        2.2.3
-Release:        8%{?dist}
+Version:        2.2.4
+Release:        1%{?dist}
 Summary:        Library to implement a well-behaved Unix daemon process
 
-# Some build scripts and test franework are licensed GPLv3+ but htose aren't shipped
+# Some build scripts and test franework are licensed GPLv3+ but those aren't shipped
 License:        ASL2.0
-URL:            http://pypi.python.org/pypi/python-daemon/
-Source0:        https://files.pythonhosted.org/packages/source/p/%{name}/%{name}-%{version}.tar.gz
-# Fix python3.8 socket tests. Already upstream.
-Patch0:         https://pagure.io/python-daemon/c/b7089121e305ef29dee9b72bfdb8b1496ffed48c.patch
-# Fix the test suite in py2
-Patch1:         0001-Mock-the-.__class__-attribute-so-tests-pass-in-py2.patch
+URL:            https://pagure.io/python-daemon
+Source0:        %pypi_source
+# Downstream-only patch, twine is unnecessary to build
+# https://pagure.io/python-daemon/c/cc9e6a0321a547aacd568aa1e8c7d94a000d5d11
+Patch0:         remove-twine-dependency.patch
 
 BuildArch:      noarch
 BuildRequires:  python3-devel, python3-setuptools
@@ -23,8 +22,6 @@ BuildRequires:  python3-testtools
 %global _description\
 This library implements the well-behaved daemon specification of PEP 3143,\
 "Standard daemon process library".\
-\
-This is the python2 version of the library.
 
 %description %_description
 
@@ -58,6 +55,9 @@ PYTHONPATH=$(pwd) %{__python3} -m unittest discover
 %{python3_sitelib}/python_daemon-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Sun Mar 22 2020 Carl George <carl@george.computer> - 2.2.4-1
+- Latest upstream rhbz#1765895
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.3-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

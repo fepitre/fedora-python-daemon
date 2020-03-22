@@ -1,0 +1,11 @@
+diff -Nurp python-daemon-2.2.4.orig/setup.py python-daemon-2.2.4/setup.py
+--- python-daemon-2.2.4.orig/setup.py	2019-10-04 22:21:52.000000000 -0500
++++ python-daemon-2.2.4/setup.py	2020-03-22 14:04:30.853124836 -0500
+@@ -68,7 +68,6 @@ setup_kwargs = dict(
+         zip_safe=False,
+         setup_requires=[
+             "docutils",
+-            "twine",
+             ],
+         test_suite="setup.test_suite",
+         tests_require=test_requirements,
